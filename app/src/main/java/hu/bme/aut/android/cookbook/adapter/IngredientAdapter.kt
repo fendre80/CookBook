@@ -13,12 +13,21 @@ import hu.bme.aut.android.cookbook.R
 
 class IngredientAdapter(private var context: Context) :
     RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
-    private var items = mutableListOf<String>()
+    private var items = ArrayList<String>()
 
     init {
         items.add(String())
     }
 
+    fun getItems() : ArrayList<String> {
+        return items
+    }
+
+    fun saveItems() {
+        for (item in items) {
+            Log.i("item", item)
+        }
+    }
 
     inner class IngredientViewHolder(ingredientView: View) : RecyclerView.ViewHolder(ingredientView) {
         val txtInputEditText : TextInputEditText
@@ -34,6 +43,7 @@ class IngredientAdapter(private var context: Context) :
 
             removeButton.setOnClickListener {
                 items.removeAt(adapterPosition)
+                this.
                 removeButton.isGone = true
                 plusButton.isGone = false
                 notifyItemRemoved(adapterPosition)
@@ -48,6 +58,7 @@ class IngredientAdapter(private var context: Context) :
         }
 
 
+
     }
 
 
@@ -55,6 +66,8 @@ class IngredientAdapter(private var context: Context) :
         val itemView: View = LayoutInflater
             .from(context)
             .inflate(R.layout.ingredient_row, parent, false)
+        if (itemCount > 1)
+            itemView.requestFocus()
         return IngredientViewHolder(itemView)
     }
 
@@ -65,8 +78,8 @@ class IngredientAdapter(private var context: Context) :
         holder.txtInputEditText.setText(item)
     }
 
-
     override fun getItemCount(): Int {
         return items.size
     }
+
 }

@@ -1,6 +1,7 @@
 package hu.bme.aut.android.cookbook
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -30,7 +31,10 @@ class NewRecipeActivity : AppCompatActivity() {
         }
 
         btnSave.setOnClickListener {
-            //TODO btnSave
+            ingrAdapter.saveItems()
+            stepsAdapter.saveItems()
+            ingredients = ingrAdapter.getItems()
+            steps = stepsAdapter.getItems()
         }
 
         spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -55,7 +59,6 @@ class NewRecipeActivity : AppCompatActivity() {
         runOnUiThread {
             ingrRecyclerView = ingredients_list
             ingrAdapter = IngredientAdapter(this)
-            ingrRecyclerView.layoutManager = LinearLayoutManager(this)
             ingrRecyclerView.adapter = ingrAdapter
         }
     }
@@ -64,8 +67,7 @@ class NewRecipeActivity : AppCompatActivity() {
         runOnUiThread {
             stepsRecyclerView = recyclerViewSteps
             stepsAdapter = IngredientAdapter(this)
-            ingrRecyclerView.layoutManager = LinearLayoutManager(this)
-            ingrRecyclerView.adapter = stepsAdapter
+            stepsRecyclerView.adapter = stepsAdapter
         }
     }
 
