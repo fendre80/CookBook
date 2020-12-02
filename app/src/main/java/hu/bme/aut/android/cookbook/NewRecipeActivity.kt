@@ -1,21 +1,21 @@
 package hu.bme.aut.android.cookbook
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.cookbook.adapter.IngredientAdapter
+import hu.bme.aut.android.cookbook.adapter.RecipeAdapter
+import hu.bme.aut.android.cookbook.data.RecipeDatabase
 import hu.bme.aut.android.cookbook.data.RecipeItem
 import kotlinx.android.synthetic.main.activity_new_recipe_item.*
+import kotlin.concurrent.thread
 
-class NewRecipeActivity : AppCompatActivity() {
+class NewRecipeActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener {
 
     private lateinit var ingrAdapter : IngredientAdapter
     private lateinit var ingrRecyclerView: RecyclerView
@@ -25,8 +25,7 @@ class NewRecipeActivity : AppCompatActivity() {
     private lateinit var stepsRecyclerView: RecyclerView
     private lateinit var steps : ArrayList<String>
 
-    private lateinit var recipeNameEditText : EditText
-    private lateinit var categorySpinner : Spinner
+    private lateinit var recipeAdapter: RecipeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +36,17 @@ class NewRecipeActivity : AppCompatActivity() {
         }
 
         btnSave.setOnClickListener {
-            ingrAdapter.saveItems()
-            stepsAdapter.saveItems()
             ingredients = ingrAdapter.getItems()
             steps = stepsAdapter.getItems()
+
+            val ri = getRecipeItem()
+            if (ri != null) {
+                thread {
+                    val newId = RecipeDatabase.getInstance(applicationContext).recipeDao().insert(ri)
+                }
+            }
+
+            finish()
         }
 
         spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -50,7 +56,6 @@ class NewRecipeActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -59,6 +64,7 @@ class NewRecipeActivity : AppCompatActivity() {
         }
         initIngrRecycleView()
         initStepsRecycleView()
+
     }
 
     private fun initIngrRecycleView() {
@@ -79,8 +85,6 @@ class NewRecipeActivity : AppCompatActivity() {
 
     //TODO ez nem biztos hogy kell
     private fun getContentView() {
-        recipeNameEditText = this.findViewById(R.id.recipe_name)
-        categorySpinner = this.findViewById(R.id.spinnerCategory)
     }
 
     private fun getStringFromList(list: List<String>) : String {
@@ -92,13 +96,22 @@ class NewRecipeActivity : AppCompatActivity() {
         return returnString
     }
 
-    private fun getRecipeItem() = RecipeItem(
-        id = null,
-        name = recipeNameEditText.text.toString(),
-        //category = RecipeItem.Category.getByOrdinal(categorySpinner.selectedItemPosition), //TODO szar
-        category = RecipeItem.Category.OTHER,
-        ingredients = getStringFromList(ingredients),
-        description = getStringFromList(steps)
-    )
+    private fun getRecipeItem() =
+        RecipeItem.Category.getByOrdinal(spinnerCategory.selectedItemPosition)?.let {
+            RecipeItem(
+            id = null,
+            name = recipe_name.text.toString(),
+            category = it,
+            ingredients = getStringFromList(ingredients),
+            description = getStringFromList(steps)
+        )
+        }
+
+    override fun onItemChanged(item: RecipeItem) {
+        TODO("Not yet implemented")
+    }
+
+    override fun ondeleteItem(item: RecipeItem) {
+    }
 
 }

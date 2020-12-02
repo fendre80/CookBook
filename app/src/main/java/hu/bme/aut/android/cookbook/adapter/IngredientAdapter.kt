@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.core.view.isGone
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import hu.bme.aut.android.cookbook.R
 
-class IngredientAdapter :
+class IngredientAdapter() :
     RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
     private var items = ArrayList<String>()
 
@@ -23,10 +25,9 @@ class IngredientAdapter :
         return items
     }
 
-    fun saveItems() {
-        for (item in items) {
-            Log.i("item", item)
-        }
+
+    interface NewRecipeClickListener {
+        fun onNewItem(item: String)
     }
 
     inner class IngredientViewHolder(ingredientView: View) : RecyclerView.ViewHolder(ingredientView) {
@@ -40,6 +41,10 @@ class IngredientAdapter :
             removeButton = ingredientView.findViewById(R.id.imgbtn_minus)
             removeButton.isGone = true
             plusButton.isGone = false
+
+            txtInputEditText.doAfterTextChanged {
+                items[adapterPosition] = it.toString()
+            }
 
             removeButton.setOnClickListener {
                 items.removeAt(adapterPosition)

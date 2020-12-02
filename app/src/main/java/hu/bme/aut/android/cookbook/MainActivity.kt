@@ -101,6 +101,7 @@ class MainActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener 
         }
     }
 
+
     override fun ondeleteItem(item: RecipeItem) {
         thread {
             RecipeDatabase.getInstance(applicationContext).recipeDao().deleteItem(item)
