@@ -15,7 +15,7 @@ import hu.bme.aut.android.cookbook.data.RecipeItem
 import kotlinx.android.synthetic.main.activity_new_recipe_item.*
 import kotlin.concurrent.thread
 
-class NewRecipeActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener {
+class NewRecipeActivity : AppCompatActivity() {
 
     private lateinit var ingrAdapter : IngredientAdapter
     private lateinit var ingrRecyclerView: RecyclerView
@@ -106,12 +106,4 @@ class NewRecipeActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickList
             description = getStringFromList(steps)
         )
         }
-
-    override fun onItemChanged(item: RecipeItem) {
-        TODO("Not yet implemented")
-    }
-
-    override fun ondeleteItem(item: RecipeItem) {
-    }
-
 }

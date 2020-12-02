@@ -1,12 +1,16 @@
 package hu.bme.aut.android.cookbook.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import hu.bme.aut.android.cookbook.DetailsActivity
+import hu.bme.aut.android.cookbook.NewRecipeActivity
 import hu.bme.aut.android.cookbook.R
 import hu.bme.aut.android.cookbook.data.RecipeItem
 
@@ -19,10 +23,13 @@ class RecipeAdapter(private val listener: RecipeItemClickListener) :
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView
 
-        var item: RecipeItem? = null
+        var item : RecipeItem? = null
 
         init {
             nameTextView = itemView.findViewById(R.id.tvRecipe_name_item)
+            nameTextView.setOnClickListener {
+                item?.let { it1 -> listener.onItemClicked(it1) }
+            }
         }
     }
 
@@ -45,9 +52,7 @@ class RecipeAdapter(private val listener: RecipeItemClickListener) :
     }
 
     interface RecipeItemClickListener {
-        fun onItemChanged(item: RecipeItem)
-
-        fun ondeleteItem(item: RecipeItem)
+        fun onItemClicked(item: RecipeItem)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {

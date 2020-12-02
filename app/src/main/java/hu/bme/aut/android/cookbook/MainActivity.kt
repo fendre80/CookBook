@@ -22,7 +22,7 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener {
 
-    private lateinit var database: RecipeDatabase
+//    private lateinit var database: RecipeDatabase
     private lateinit var adapter: RecipeAdapter
     private lateinit var recyclerView: RecyclerView
 
@@ -37,11 +37,6 @@ class MainActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener 
             startActivity(intent)
         }
 
-        database = Room.databaseBuilder(
-            applicationContext,
-            RecipeDatabase::class.java,
-            "recipe-list"
-        ).build()
         initRecycleView()
     }
 
@@ -77,6 +72,11 @@ class MainActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener 
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onResume() {
+        loadItemsInBackground()
+        super.onResume()
+    }
+
     private fun initRecycleView() {
         recyclerView = MainRecyclerView
         adapter = RecipeAdapter(this)
@@ -88,23 +88,24 @@ class MainActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener 
 
     private fun loadItemsInBackground() {
         thread {
-            val items = RecipeDatabase.getInstance(applicationContext).recipeDao().getAll()
+            val items = RecipeDatabase.getInstance(this).recipeDao().getAll()
             runOnUiThread {
                 adapter.updateRecipeItem(items)
             }
         }
     }
 
-    override fun onItemChanged(item: RecipeItem) {
+    override fun onItemClicked(item: RecipeItem) {
         thread {
-            RecipeDatabase.getInstance(applicationContext).recipeDao().update(item)
-        }
-    }
-
-
-    override fun ondeleteItem(item: RecipeItem) {
-        thread {
-            RecipeDatabase.getInstance(applicationContext).recipeDao().deleteItem(item)
+            val recipe = RecipeDatabase.getInstance(this).recipeDao().getRecipe(item.id)
+                val intent = Intent(this, DetailsActivity::class.java)
+            runOnUiThread {
+                intent.putExtra("RECIPE_NAME",recipe.name)
+                intent.putExtra("CATEGORY", RecipeItem.Category.toInt(recipe.category))
+                intent.putExtra("INGREDIENTS", recipe.ingredients)
+                intent.putExtra("DESCRIPTION", recipe.description)
+                startActivity(intent)
+            }
         }
     }
 

@@ -10,6 +10,9 @@ interface RecipeDAO {
     @Query("SELECT name FROM recipetitem")
     fun getAllNames() : List<String>
 
+    @Query("SELECT * FROM recipetitem WHERE id = :itemId")
+    fun getRecipe(itemId: Long?) : RecipeItem
+
     @Insert
     fun insert(recipeItem: RecipeItem): Long
 

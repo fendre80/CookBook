@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [RecipeItem::class], version = 1)
+@Database(entities = [RecipeItem::class], version = 2)
 @TypeConverters(value = [RecipeItem.Category::class])
 abstract class RecipeDatabase : RoomDatabase() {
     abstract fun recipeDao(): RecipeDAO
@@ -17,7 +17,7 @@ abstract class RecipeDatabase : RoomDatabase() {
         fun getInstance(context: Context): RecipeDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(context.applicationContext,
-                    RecipeDatabase::class.java, "shopping.db")
+                    RecipeDatabase::class.java, "recipe-list")
                     .fallbackToDestructiveMigration()
                     .build()
             }
