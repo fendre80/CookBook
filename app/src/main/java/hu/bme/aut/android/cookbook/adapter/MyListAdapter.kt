@@ -1,5 +1,6 @@
 package hu.bme.aut.android.cookbook.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,7 @@ class MyListAdapter(private var isIngredient: Boolean) :
         else {
             itemView = LayoutInflater
                 .from(parent.context)
-                .inflate(R.layout.details_ingredient, parent, false)
+                .inflate(R.layout.details_description, parent, false)
 
         }
         return MyListViewHolder(itemView)
@@ -39,7 +40,16 @@ class MyListAdapter(private var isIngredient: Boolean) :
     }
 
     fun setItems(newItems : List<String>) {
+        items.clear()
+        if (!isIngredient) {
+            for (item in newItems) {
+                items.add((newItems.indexOf(item) + 1).toString() + ". " + item)
+            }
+        }
+        else {
             items.addAll(newItems)
+        }
+        Log.i("myitems", items.toString())
             notifyDataSetChanged()
     }
 

@@ -22,23 +22,20 @@ class IngredientAdapter() :
     }
 
     fun getItems() : ArrayList<String> {
-        return items
+        return items.filter { it.isEmpty() } as ArrayList<String>
     }
 
 
-    interface NewRecipeClickListener {
-        fun onNewItem(item: String)
-    }
+//    interface NewRecipeClickListener {
+//        fun onNewItem(item: String)
+//    }
 
     inner class IngredientViewHolder(ingredientView: View) : RecyclerView.ViewHolder(ingredientView) {
-        val txtInputEditText : TextInputEditText
-        val plusButton : ImageButton
-        val removeButton : ImageButton
+        val txtInputEditText : TextInputEditText = ingredientView.findViewById(R.id.txtInpEdTxt)
+        val plusButton : ImageButton = ingredientView.findViewById(R.id.imgbtn_plus)
+        val removeButton : ImageButton = ingredientView.findViewById(R.id.imgbtn_minus)
 
         init {
-            txtInputEditText = ingredientView.findViewById(R.id.txtInpEdTxt)
-            plusButton = ingredientView.findViewById(R.id.imgbtn_plus)
-            removeButton = ingredientView.findViewById(R.id.imgbtn_minus)
             removeButton.isGone = true
             plusButton.isGone = false
 

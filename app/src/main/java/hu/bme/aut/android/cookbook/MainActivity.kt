@@ -100,6 +100,7 @@ class MainActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener 
             val recipe = RecipeDatabase.getInstance(this).recipeDao().getRecipe(item.id)
                 val intent = Intent(this, DetailsActivity::class.java)
             runOnUiThread {
+                intent.putExtra("ID", recipe.id)
                 intent.putExtra("RECIPE_NAME",recipe.name)
                 intent.putExtra("CATEGORY", RecipeItem.Category.toInt(recipe.category))
                 intent.putExtra("INGREDIENTS", recipe.ingredients)
