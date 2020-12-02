@@ -4,16 +4,18 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
+import java.util.*
 
-@Entity(tableName = "receptitem")
+@Entity(tableName = "recipetitem")
 data class RecipeItem (
     @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) val id: Long?,
     @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "category") val category: Category,
     @ColumnInfo(name = "ingredients") val ingredients: String,
     @ColumnInfo(name = "description") val description: String
 ) {
     enum class Category {
-        MAIN_COURSE, DESSERT, LUNCH, OTHER;
+        STARTER, SOUP, MAIN_COURSE, DESSERT, OTHER;
         companion object {
             @JvmStatic
             @TypeConverter

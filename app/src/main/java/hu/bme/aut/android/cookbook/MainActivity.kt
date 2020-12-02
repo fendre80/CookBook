@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener 
 
     private fun loadItemsInBackground() {
         thread {
-            val items = database.recipeDao().getAll()
+            val items = RecipeDatabase.getInstance(applicationContext).recipeDao().getAll()
             runOnUiThread {
                 adapter.updateRecipeItem(items)
             }
@@ -97,13 +97,13 @@ class MainActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener 
 
     override fun onItemChanged(item: RecipeItem) {
         thread {
-            database.recipeDao().update(item)
+            RecipeDatabase.getInstance(applicationContext).recipeDao().update(item)
         }
     }
 
     override fun ondeleteItem(item: RecipeItem) {
         thread {
-            database.recipeDao().deleteItem(item)
+            RecipeDatabase.getInstance(applicationContext).recipeDao().deleteItem(item)
         }
     }
 

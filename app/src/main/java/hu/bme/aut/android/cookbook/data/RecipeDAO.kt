@@ -4,15 +4,18 @@ import androidx.room.*
 
 @Dao
 interface RecipeDAO {
-    @Query("SELECT * FROM receptitem")
+    @Query("SELECT * FROM recipetitem")
     fun getAll(): List<RecipeItem>
 
+    @Query("SELECT name FROM recipetitem")
+    fun getAllNames() : List<String>
+
     @Insert
-    fun insert(receptItem: RecipeItem): Long
+    fun insert(recipeItem: RecipeItem): Long
 
     @Update
-    fun update(receptItem: RecipeItem)
+    fun update(vararg recipeItem: RecipeItem)
 
     @Delete
-    fun deleteItem(receptItem: RecipeItem)
+    fun deleteItem(recipeItem: RecipeItem)
 }

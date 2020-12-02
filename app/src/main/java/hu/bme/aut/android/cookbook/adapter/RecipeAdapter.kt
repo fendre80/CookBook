@@ -1,12 +1,10 @@
 package hu.bme.aut.android.cookbook.adapter
 
-import android.graphics.ColorSpace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.cookbook.R
@@ -33,8 +31,10 @@ class RecipeAdapter(private val listener: RecipeItemClickListener) :
         notifyItemInserted(items.size - 1)
     }
 
-    fun updateRecipeItem(items: List<RecipeItem>) {
-
+    fun updateRecipeItem(itemList: List<RecipeItem>) {
+        items.clear()
+        items.addAll(itemList)
+        notifyDataSetChanged()
     }
 
     fun deleteItem(item: RecipeItem) {

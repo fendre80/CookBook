@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import hu.bme.aut.android.cookbook.R
 
-class IngredientAdapter(private var context: Context) :
+class IngredientAdapter :
     RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
     private var items = ArrayList<String>()
 
@@ -64,7 +64,7 @@ class IngredientAdapter(private var context: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientViewHolder {
         val itemView: View = LayoutInflater
-            .from(context)
+            .from(parent.context)
             .inflate(R.layout.ingredient_row, parent, false)
         if (itemCount > 1)
             itemView.requestFocus()
