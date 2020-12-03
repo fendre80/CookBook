@@ -22,13 +22,13 @@ class IngredientAdapter() :
     }
 
     fun getItems() : ArrayList<String> {
-        return items.filter { it.isEmpty() } as ArrayList<String>
+        return items.filter { it.isNotEmpty() } as ArrayList<String>
     }
 
+    fun setItems(newItems : ArrayList<String>) {
+        items = newItems
+    }
 
-//    interface NewRecipeClickListener {
-//        fun onNewItem(item: String)
-//    }
 
     inner class IngredientViewHolder(ingredientView: View) : RecyclerView.ViewHolder(ingredientView) {
         val txtInputEditText : TextInputEditText = ingredientView.findViewById(R.id.txtInpEdTxt)
@@ -45,7 +45,6 @@ class IngredientAdapter() :
 
             removeButton.setOnClickListener {
                 items.removeAt(adapterPosition)
-                this.
                 removeButton.isGone = true
                 plusButton.isGone = false
                 notifyItemRemoved(adapterPosition)

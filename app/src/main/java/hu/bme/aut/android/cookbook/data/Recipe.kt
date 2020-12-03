@@ -28,6 +28,7 @@ data class RecipeItem (
             fun toInt(category: Category): Int {
                 return category.ordinal
             }
+
         }
 
     }

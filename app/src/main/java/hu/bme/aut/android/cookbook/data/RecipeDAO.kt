@@ -17,7 +17,7 @@ interface RecipeDAO {
     fun insert(recipeItem: RecipeItem): Long
 
     @Update
-    fun update(vararg recipeItem: RecipeItem)
+    fun update(recipeItem: RecipeItem)
 
     @Delete
     fun deleteItem(recipeItem: RecipeItem)

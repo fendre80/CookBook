@@ -2,17 +2,12 @@ package hu.bme.aut.android.cookbook
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import hu.bme.aut.android.cookbook.adapter.RecipeAdapter
 import hu.bme.aut.android.cookbook.data.RecipeDatabase
 import hu.bme.aut.android.cookbook.data.RecipeItem
@@ -22,7 +17,6 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener {
 
-//    private lateinit var database: RecipeDatabase
     private lateinit var adapter: RecipeAdapter
     private lateinit var recyclerView: RecyclerView
 
@@ -52,9 +46,8 @@ class MainActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener 
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                Log.d("onQueryTextChange", "query: " + newText)
                 adapter.filter.filter(newText)
-                return true
+                return false
             }
         })
         item.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
@@ -105,6 +98,7 @@ class MainActivity : AppCompatActivity(), RecipeAdapter.RecipeItemClickListener 
                 intent.putExtra("CATEGORY", RecipeItem.Category.toInt(recipe.category))
                 intent.putExtra("INGREDIENTS", recipe.ingredients)
                 intent.putExtra("DESCRIPTION", recipe.description)
+                intent.putExtra("EDIT", false)
                 startActivity(intent)
             }
         }

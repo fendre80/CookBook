@@ -16,8 +16,12 @@ import hu.bme.aut.android.cookbook.data.RecipeItem
 
 class RecipeAdapter(private val listener: RecipeItemClickListener) :
     RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>(), Filterable {
-    private val items = mutableListOf<RecipeItem>()
-    private var filteredItems = ArrayList<RecipeItem>()
+    private var items = mutableListOf<RecipeItem>()
+    private var filteredItems = ArrayList<RecipeItem>(items.size)
+
+    init {
+        filteredItems = items as ArrayList<RecipeItem>
+    }
 
 
     inner class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -63,14 +67,14 @@ class RecipeAdapter(private val listener: RecipeItemClickListener) :
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
-        val item = items[position]
+        val item = filteredItems[position]
         holder.nameTextView.text = item.name
 
         holder.item = item
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return filteredItems.size
     }
 
     override fun getFilter(): Filter {
