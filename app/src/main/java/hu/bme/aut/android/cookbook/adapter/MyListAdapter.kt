@@ -14,13 +14,12 @@ class MyListAdapter(private var isIngredient: Boolean) :
     private var items = mutableListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyListViewHolder {
-        val itemView : View
+        val itemView: View
         if (isIngredient) {
             itemView = LayoutInflater
                 .from(parent.context)
                 .inflate(R.layout.details_ingredient, parent, false)
-        }
-        else {
+        } else {
             itemView = LayoutInflater
                 .from(parent.context)
                 .inflate(R.layout.details_description, parent, false)
@@ -39,23 +38,22 @@ class MyListAdapter(private var isIngredient: Boolean) :
         return items.size
     }
 
-    fun setItems(newItems : List<String>) {
+    fun setItems(newItems: List<String>) {
         items.clear()
         if (!isIngredient) {
             for (item in newItems) {
                 items.add((newItems.indexOf(item) + 1).toString() + ". " + item)
             }
-        }
-        else {
+        } else {
             items.addAll(newItems)
         }
         Log.i("myitems", items.toString())
-            notifyDataSetChanged()
+        notifyDataSetChanged()
     }
 
 
-    inner class MyListViewHolder(listView : View) : RecyclerView.ViewHolder(listView) {
-        val tvList : TextView
+    inner class MyListViewHolder(listView: View) : RecyclerView.ViewHolder(listView) {
+        val tvList: TextView
 
         init {
             if (isIngredient)

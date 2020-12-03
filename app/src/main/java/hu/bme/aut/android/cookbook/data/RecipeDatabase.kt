@@ -16,8 +16,10 @@ abstract class RecipeDatabase : RoomDatabase() {
 
         fun getInstance(context: Context): RecipeDatabase {
             if (INSTANCE == null) {
-                INSTANCE = Room.databaseBuilder(context.applicationContext,
-                    RecipeDatabase::class.java, "recipe-list")
+                INSTANCE = Room.databaseBuilder(
+                    context.applicationContext,
+                    RecipeDatabase::class.java, "recipe-list"
+                )
                     .fallbackToDestructiveMigration()
                     .build()
             }

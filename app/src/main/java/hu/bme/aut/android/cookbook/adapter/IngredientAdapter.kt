@@ -1,13 +1,10 @@
 package hu.bme.aut.android.cookbook.adapter
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.core.view.isGone
-import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -16,24 +13,27 @@ import hu.bme.aut.android.cookbook.R
 class IngredientAdapter() :
     RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
     private var items = ArrayList<String>()
+    private var newItems = ArrayList<String>()
 
     init {
         items.add(String())
     }
 
-    fun getItems() : ArrayList<String> {
+    fun getItems(): ArrayList<String> {
         return items.filter { it.isNotEmpty() } as ArrayList<String>
     }
 
-    fun setItems(newItems : ArrayList<String>) {
+    fun setItems(newItems: ArrayList<String>) {
         items = newItems
+        this.newItems = newItems
     }
 
 
-    inner class IngredientViewHolder(ingredientView: View) : RecyclerView.ViewHolder(ingredientView) {
-        val txtInputEditText : TextInputEditText = ingredientView.findViewById(R.id.txtInpEdTxt)
-        val plusButton : ImageButton = ingredientView.findViewById(R.id.imgbtn_plus)
-        val removeButton : ImageButton = ingredientView.findViewById(R.id.imgbtn_minus)
+    inner class IngredientViewHolder(ingredientView: View) :
+        RecyclerView.ViewHolder(ingredientView) {
+        val txtInputEditText: TextInputEditText = ingredientView.findViewById(R.id.txtInpEdTxt)
+        val plusButton: ImageButton = ingredientView.findViewById(R.id.imgbtn_plus)
+        val removeButton: ImageButton = ingredientView.findViewById(R.id.imgbtn_minus)
 
         init {
             removeButton.isGone = true
@@ -57,9 +57,6 @@ class IngredientAdapter() :
             }
 
         }
-
-
-
     }
 
 
@@ -72,7 +69,7 @@ class IngredientAdapter() :
         return IngredientViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: IngredientAdapter.IngredientViewHolder, position: Int) {
         val item = items[position]
         holder.plusButton.setImageResource(R.drawable.ic_plus)
         holder.removeButton.setImageResource(R.drawable.ic_minus)

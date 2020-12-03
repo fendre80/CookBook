@@ -69,6 +69,7 @@ class NewRecipeActivity : AppCompatActivity() {
 
         if (intent.getBooleanExtra("EDIT", false)) {
             editInit()
+            recipe_name.requestFocus()
             btnSave.setOnClickListener {
                 ingredients = ingrAdapter.getItems()
                 steps = stepsAdapter.getItems()
